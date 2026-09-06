@@ -5,11 +5,11 @@ import { TaskGridSkeleton } from '@/components/tasks/LoadingSkeleton';
 import { getTasks, getStats, getCategories } from '@/lib/tasks-service';
 
 export const metadata: Metadata = {
-  title: 'AI Tasks — Practical AI Challenges & Benchmarks',
+  title: 'AI Tasks — Practical AI Challenges',
   description:
     'Explore practical AI tasks, challenges, and projects designed to help you build and evaluate AI skills across Generative AI, Agents, Vision, and Robotics.',
   openGraph: {
-    title: 'AI Tasks — Practical AI Challenges & Benchmarks',
+    title: 'AI Tasks — Practical AI Challenges',
     description:
       'Explore practical AI tasks, challenges, and projects designed to help you build and evaluate AI skills.',
     type: 'website'

@@ -17,9 +17,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI Tasks — AI Orbit Ecosystem",
-  description: "Explore practical AI tasks, challenges, and projects designed to help you build and evaluate AI skills.",
+  title: "AI Tasks — Practical AI Challenges",
+  description: "Explore practical AI tasks, challenges, and projects designed to help you build and evaluate AI skills across Generative AI, Agents, Vision, and Robotics.",
   keywords: ["AI Tasks", "Machine Learning", "Generative AI", "Computer Vision", "AI Agents", "LLM", "Robotics"],
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' },
+    ],
+    apple: '/apple-icon.png',
+  },
 };
 
 export default function RootLayout({
