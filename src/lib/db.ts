@@ -79,14 +79,36 @@ export function getDb(): Database.Database {
     return dbInstance;
   }
 
-  const dataDir = path.join(process.cwd(), 'data');
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
+  let dbPath = path.join(process.cwd(), 'data', 'tasks.db');
+
+  // In Vercel serverless environments, copy SQLite database to writable /tmp
+  if (process.env.VERCEL) {
+    const tmpDbPath = path.join('/tmp', 'tasks.db');
+    if (!fs.existsSync(tmpDbPath)) {
+      if (fs.existsSync(dbPath)) {
+        try {
+          fs.copyFileSync(dbPath, tmpDbPath);
+        } catch (e) {
+          console.warn('Could not copy tasks.db to /tmp:', e);
+        }
+      }
+    }
+    if (fs.existsSync(tmpDbPath)) {
+      dbPath = tmpDbPath;
+    }
+  } else {
+    const dataDir = path.join(process.cwd(), 'data');
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
   }
 
-  const dbPath = path.join(dataDir, 'tasks.db');
   dbInstance = new Database(dbPath);
-  dbInstance.pragma('journal_mode = WAL');
+  try {
+    dbInstance.pragma('journal_mode = WAL');
+  } catch {
+    // Gracefully handle environments where WAL mode is restricted
+  }
   dbInstance.pragma('foreign_keys = ON');
 
   initSchema(dbInstance);

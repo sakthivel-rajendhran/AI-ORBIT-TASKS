@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   devIndicators: false,
+  serverExternalPackages: ['better-sqlite3'],
   allowedDevOrigins: [
     '10.218.158.209',
     '10.218.*.*',
