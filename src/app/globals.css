@@ -1,26 +1,719 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ==========================================================
+   AI ORBIT DESIGN SYSTEM — THEME COLOR TOKENS
+   ========================================================== */
+
+:root,
+html.dark {
+  /* 1. DARK THEME — DEFAULT */
+  --bg-app: #050505;
+  --bg-surface: #0B0B0F;
+  --bg-card: #101014;
+  --bg-card-subtle: #14141A;
+  --border-subtle: #24242C;
+  --border-hover: #383844;
+  --text-primary: #FFFFFF;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
+  --accent-primary: #8B5CF6;
+  --accent-secondary: #A78BFA;
+  --accent-surface: rgba(139, 92, 246, 0.12);
+  --accent-border: rgba(139, 92, 246, 0.35);
+  --accent-glow: rgba(139, 92, 246, 0.22);
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --card-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.7);
+  --card-shadow-hover: 0 12px 30px -6px rgba(0, 0, 0, 0.8), 0 0 20px rgba(139, 92, 246, 0.18);
+  --scrollbar-track: #08080A;
+  --scrollbar-thumb: #222227;
+  --shimmer-1: #121216;
+  --shimmer-2: #1C1C24;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html.light {
+  /* 2. LIGHT THEME */
+  --bg-app: #F8F8FA;
+  --bg-surface: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-card-subtle: #F4F4F6;
+  --border-subtle: #E4E4E7;
+  --border-hover: #D4D4D8;
+  --text-primary: #18181B;
+  --text-secondary: #52525B;
+  --text-muted: #71717A;
+  --accent-primary: #7C3AED;
+  --accent-secondary: #8B5CF6;
+  --accent-surface: rgba(124, 58, 237, 0.08);
+  --accent-border: rgba(124, 58, 237, 0.3);
+  --accent-glow: rgba(124, 58, 237, 0.14);
+  --success: #16A34A;
+  --warning: #D97706;
+  --error: #DC2626;
+  --card-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.06);
+  --card-shadow-hover: 0 10px 25px -4px rgba(0, 0, 0, 0.09), 0 0 16px rgba(124, 58, 237, 0.12);
+  --scrollbar-track: #F1F1F4;
+  --scrollbar-thumb: #D1D1D6;
+  --shimmer-1: #ECECEF;
+  --shimmer-2: #F6F6F9;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Base HTML & Body Styles */
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Very subtle, slow animated ambient background glow on dark theme */
+html.dark body::before {
+  content: '';
+  position: fixed;
+  top: -15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 850px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.05) 0%, rgba(139, 92, 246, 0.015) 50%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: ambientFloat 20s ease-in-out infinite alternate;
+}
+
+@keyframes ambientFloat {
+  0% {
+    transform: translate(-50%, 0) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-48%, 20px) scale(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-52%, -15px) scale(0.96);
+    opacity: 0.8;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  transition: background-color 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Theme transition smooth styling */
+.bg-orbit-app,
+.bg-orbit-surface,
+.bg-orbit-card,
+.bg-orbit-subtle,
+.border-orbit {
+  transition: background-color 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-hover);
+}
+
+/* ==========================================================
+   DYNAMIC THEME UTILITIES
+   ========================================================== */
+
+.bg-orbit-app {
+  background-color: var(--bg-app);
+}
+
+.bg-orbit-surface {
+  background-color: var(--bg-surface);
+}
+
+.bg-orbit-card {
+  background-color: var(--bg-card);
+}
+
+.bg-orbit-subtle {
+  background-color: var(--bg-card-subtle);
+}
+
+.border-orbit {
+  border-color: var(--border-subtle);
+}
+
+.border-orbit-hover:hover {
+  border-color: var(--border-hover);
+}
+
+.text-orbit-primary {
+  color: var(--text-primary);
+}
+
+.text-orbit-secondary {
+  color: var(--text-secondary);
+}
+
+.text-orbit-muted {
+  color: var(--text-muted);
+}
+
+.text-orbit-accent {
+  color: var(--accent-primary);
+}
+
+.bg-orbit-accent {
+  background-color: var(--accent-primary);
+}
+
+/* Skeleton animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(90deg, var(--shimmer-1) 25%, var(--shimmer-2) 50%, var(--shimmer-1) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
+}
+
+/* ==========================================================
+   TEXT & SECTION ENTRANCE ANIMATIONS (SUBTLE & STAGGERED)
+   ========================================================== */
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.anim-fade-up {
+  opacity: 0;
+  animation: fadeUp 420ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.anim-delay-0 {
+  animation-delay: 0ms;
+}
+
+.anim-delay-1 {
+  animation-delay: 80ms;
+}
+
+.anim-delay-2 {
+  animation-delay: 140ms;
+}
+
+.anim-delay-3 {
+  animation-delay: 200ms;
+}
+
+.anim-delay-4 {
+  animation-delay: 260ms;
+}
+
+.anim-delay-5 {
+  animation-delay: 320ms;
+}
+
+.anim-delay-6 {
+  animation-delay: 380ms;
+}
+
+/* Card Staggered Entrance (18px -> 0px) */
+@keyframes cardFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-entrance {
+  opacity: 0;
+  animation: cardFadeUp 420ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--card-delay, 0ms);
+}
+
+/* Horizontal Row Staggered Entrance (15px -> 0px) */
+@keyframes rowSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.row-entrance {
+  opacity: 0;
+  animation: rowSlideIn 380ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--row-delay, 0ms);
+}
+
+/* ==========================================================
+   DISTINCT CARD HOVER EFFECTS (BY CARD TYPE)
+   ========================================================== */
+
+/* 1. TASK CARDS: translateY(-5px) + brighter violet border + visible purple shadow */
+.card-hover-task,
+.card-hover-featured {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease,
+              box-shadow 0.25s ease,
+              background-color 0.25s ease;
+  box-shadow: var(--card-shadow);
+}
+
+.card-hover-task:hover,
+.card-hover-featured:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent-border);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.card-hover-task:active,
+.card-hover-featured:active {
+  transform: translateY(-2px);
+  transition-duration: 0.1s;
+}
+
+.card-hover-task:hover .task-title,
+.card-hover-featured:hover .task-title {
+  color: var(--accent-secondary);
+}
+
+.card-hover-task:hover .task-arrow,
+.card-hover-featured:hover .task-arrow {
+  transform: translateX(4px);
+}
+
+.card-hover-task:hover .task-tag,
+.card-hover-featured:hover .task-tag {
+  transform: translateY(-1px);
+  border-color: var(--border-hover);
+}
+
+/* Touch devices: avoid sticky hover transforms on mobile tapping */
+@media (hover: none) {
+  .card-hover-task:hover,
+  .card-hover-featured:hover {
+    transform: none;
+    border-color: var(--border-subtle);
+    box-shadow: var(--card-shadow);
+  }
+  .card-hover-task:hover .task-title,
+  .card-hover-featured:hover .task-title {
+    color: var(--text-primary);
+  }
+  .card-hover-task:hover .task-arrow,
+  .card-hover-featured:hover .task-arrow {
+    transform: none;
+  }
+  .card-hover-task:hover .task-tag,
+  .card-hover-featured:hover .task-tag {
+    transform: none;
+    border-color: var(--border-subtle);
+  }
+}
+
+/* 2. STAT CARDS: translateY(-3px) scale(1.02) + icon shift + brightness */
+.card-hover-stat {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.22s ease,
+              box-shadow 0.22s ease;
+  box-shadow: var(--card-shadow);
+}
+
+.card-hover-stat:hover {
+  transform: translateY(-3px) scale(1.02);
+  border-color: var(--border-hover);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.card-hover-stat:hover .stat-icon {
+  transform: translateY(-2px) rotate(3deg);
+  transition: transform 0.2s ease;
+}
+
+.card-hover-stat:hover .stat-number {
+  filter: brightness(1.15);
+  transition: filter 0.2s ease;
+}
+
+/* 3. LEADERBOARD CARDS & ROWS: translateX(5px) + accent border */
+.card-hover-leaderboard {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.22s ease,
+              background-color 0.22s ease,
+              box-shadow 0.22s ease;
+}
+
+.card-hover-leaderboard:hover {
+  transform: translateX(5px);
+  border-color: var(--accent-border);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.card-hover-leaderboard-row {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.2s ease,
+              border-color 0.2s ease;
+}
+
+.card-hover-leaderboard-row:hover {
+  transform: translateX(5px);
+  background-color: var(--bg-card-subtle);
+}
+
+.card-hover-leaderboard-row:hover .row-avatar {
+  transform: scale(1.08);
+  transition: transform 0.2s ease;
+}
+
+.card-hover-leaderboard-row:hover .row-rank {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+.card-hover-leaderboard-row:hover .row-score {
+  filter: brightness(1.2);
+  transition: filter 0.2s ease;
+}
+
+/* 4. FEATURED CARDS: translateY(-6px) + ambient glow */
+.card-hover-featured {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease,
+              box-shadow 0.25s ease;
+  box-shadow: 0 0 18px var(--accent-glow);
+}
+
+.card-hover-featured:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent-primary);
+  box-shadow: 0 14px 40px -4px rgba(0, 0, 0, 0.7), 0 0 30px var(--accent-glow);
+}
+
+.card-hover-featured:hover .task-title {
+  color: var(--accent-secondary);
+}
+
+.card-hover-featured:hover .task-arrow {
+  transform: translateX(4px);
+}
+
+/* 5. CATEGORY CARDS / CHIPS: translateY(-4px) + badge scale */
+.card-hover-category {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease,
+              background-color 0.2s ease,
+              color 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.card-hover-category:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-border);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.12);
+}
+
+.card-hover-category:hover .cat-badge {
+  transform: scale(1.06);
+  transition: transform 0.18s ease;
+}
+
+/* 6. RELATED TASK CARDS: translateY(-3px) + border highlight + arrow shift */
+.card-hover-related {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.22s ease,
+              box-shadow 0.22s ease;
+  box-shadow: var(--card-shadow);
+}
+
+.card-hover-related:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-border);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.card-hover-related:hover .related-arrow {
+  transform: translateX(3px);
+  transition: transform 0.2s ease;
+}
+
+/* 7. SUBTLE CARDS (Overview, Constraints, Rubric): translateY(-2px) */
+.card-hover-subtle {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.22s ease,
+              box-shadow 0.22s ease;
+  box-shadow: var(--card-shadow);
+}
+
+.card-hover-subtle:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-hover);
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* 8. WORKSPACE CARDS: translateY(-2px) + border response */
+.card-hover-workspace {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.22s ease,
+              box-shadow 0.22s ease;
+  box-shadow: var(--card-shadow);
+}
+
+.card-hover-workspace:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-hover);
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* 9. MINI PILLS (Technologies, Skills): translateY(-2px) */
+.card-hover-pill {
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.18s ease,
+              color 0.18s ease;
+}
+
+.card-hover-pill:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+}
+
+/* Legacy card-hover-effect fallback */
+.card-hover-effect {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease,
+              box-shadow 0.2s ease;
+  box-shadow: var(--card-shadow);
+}
+
+.card-hover-effect:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-hover);
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* ==========================================================
+   BUTTON & NAVIGATION MICRO-INTERACTIONS
+   ========================================================== */
+
+.btn-interaction {
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.15s ease,
+              filter 0.15s ease,
+              background-color 0.15s ease,
+              border-color 0.15s ease;
+}
+
+.btn-interaction:hover {
+  transform: translateY(-1px);
+}
+
+.btn-interaction:active {
+  transform: scale(0.97);
+}
+
+/* Dedicated START TASK Button interaction */
+.btn-start-task {
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.18s ease,
+              filter 0.18s ease;
+}
+
+.btn-start-task:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.btn-start-task:active {
+  transform: scale(0.97);
+}
+
+.btn-start-task:hover .btn-arrow {
+  transform: translateX(3px);
+  transition: transform 0.18s ease;
+}
+
+.btn-glow {
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+
+.btn-glow:hover {
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+
+/* Theme Toggle Button Micro-Animation */
+.theme-toggle-btn {
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.2s ease,
+              background-color 0.2s ease,
+              color 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+  transform: scale(1.08) rotate(15deg);
+}
+
+.theme-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+/* Pure CSS Theme Icon Toggling to guarantee zero hydration mismatch */
+.theme-icon-moon {
+  display: block;
+}
+.theme-icon-sun {
+  display: none;
+}
+.theme-label-dark {
+  display: inline;
+}
+.theme-label-light {
+  display: none;
+}
+
+html.light .theme-icon-moon {
+  display: none !important;
+}
+html.light .theme-icon-sun {
+  display: block !important;
+}
+html.light .theme-label-dark {
+  display: none !important;
+}
+html.light .theme-label-light {
+  display: inline !important;
+}
+
+/* Active navigation purple dot entrance */
+@keyframes navDotIn {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.nav-dot-active {
+  animation: navDotIn 250ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ==========================================================
+   ACCESSIBILITY: PREFERS-REDUCED-MOTION
+   ========================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html.dark body::before {
+    animation: none !important;
+  }
+
+  .anim-fade-up,
+  .card-entrance,
+  .row-entrance,
+  .nav-dot-active {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .skeleton-shimmer {
+    animation: none;
+    background: var(--shimmer-1);
+  }
+
+  .card-hover-task,
+  .card-hover-task:hover,
+  .card-hover-stat,
+  .card-hover-stat:hover,
+  .card-hover-leaderboard,
+  .card-hover-leaderboard:hover,
+  .card-hover-leaderboard-row,
+  .card-hover-leaderboard-row:hover,
+  .card-hover-featured,
+  .card-hover-featured:hover,
+  .card-hover-category,
+  .card-hover-category:hover,
+  .card-hover-related,
+  .card-hover-related:hover,
+  .card-hover-subtle,
+  .card-hover-subtle:hover,
+  .card-hover-workspace,
+  .card-hover-workspace:hover,
+  .card-hover-pill,
+  .card-hover-pill:hover,
+  .card-hover-effect,
+  .card-hover-effect:hover,
+  .btn-interaction,
+  .btn-interaction:hover,
+  .btn-interaction:active,
+  .btn-start-task,
+  .btn-start-task:hover,
+  .btn-start-task:active,
+  .theme-toggle-btn,
+  .theme-toggle-btn:hover,
+  .theme-toggle-btn:active {
+    transform: none !important;
+    transition: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Hide Next.js dev indicator ("N" symbol) in development */
+nextjs-portal,
+[data-nextjs-dev-indicator],
+[data-nextjs-toast],
+div[data-nextjs-dev-tools-button],
+button[aria-label*="Next.js"] {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
