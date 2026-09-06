@@ -38,7 +38,8 @@ export function TaskMetadataPanel({
 }: TaskMetadataPanelProps) {
   const formattedDate = new Date(task.createdAt).toLocaleDateString('en-US', {
     month: 'short',
-    year: 'numeric'
+    year: 'numeric',
+    timeZone: 'UTC'
   });
 
   return (
@@ -114,7 +115,7 @@ export function TaskMetadataPanel({
               <Calendar size={13} className="text-orbit-muted" />
               Created
             </span>
-            <span className="text-orbit-secondary">{formattedDate}</span>
+            <span className="text-orbit-secondary" suppressHydrationWarning>{formattedDate}</span>
           </div>
 
           {/* Participants */}

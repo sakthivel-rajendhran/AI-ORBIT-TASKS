@@ -246,7 +246,7 @@ export function TasksClient({
         }
       })
       .catch((err: unknown) => {
-        if (err instanceof Error && err.name === 'AbortError') {
+        if ((err as { name?: string })?.name === 'AbortError') {
           return;
         }
         console.error('Fetch error:', err);

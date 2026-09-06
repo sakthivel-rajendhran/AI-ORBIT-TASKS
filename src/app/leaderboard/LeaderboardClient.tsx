@@ -127,7 +127,7 @@ export function LeaderboardClient({
           }
         })
         .catch((err: unknown) => {
-          if (err instanceof Error && err.name === 'AbortError') return;
+          if ((err as { name?: string })?.name === 'AbortError') return;
           console.error('Leaderboard fetch error:', err);
           setError('Network connection error. Please try again.');
         })

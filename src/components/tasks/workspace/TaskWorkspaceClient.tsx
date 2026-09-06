@@ -108,7 +108,8 @@ export function TaskWorkspaceClient({ task, initialAssignment }: TaskWorkspaceCl
   const formattedStartedDate = new Date(assignment.startedAt).toLocaleDateString('en-US', {
     month: 'long',
     day: 'numeric',
-    year: 'numeric'
+    year: 'numeric',
+    timeZone: 'UTC'
   });
 
   const totalReqs = task.requirements?.length || 0;
@@ -176,7 +177,7 @@ export function TaskWorkspaceClient({ task, initialAssignment }: TaskWorkspaceCl
               )}
 
               <span className="text-xs text-orbit-muted font-mono">
-                Started: <span className="text-orbit-primary font-semibold">{formattedStartedDate}</span>
+                Started: <span className="text-orbit-primary font-semibold" suppressHydrationWarning>{formattedStartedDate}</span>
               </span>
 
               <span className="text-orbit-muted">•</span>
