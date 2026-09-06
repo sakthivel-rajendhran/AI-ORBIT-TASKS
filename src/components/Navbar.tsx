@@ -48,7 +48,7 @@ export function Navbar() {
           <Link
             href="/tasks"
             prefetch={true}
-            className={`text-[13px] font-semibold transition-colors flex items-center gap-1.5 ${
+            className={`nav-link text-[13px] font-semibold flex items-center gap-1.5 ${
               isTasksActive
                 ? 'text-orbit-primary'
                 : 'text-orbit-secondary hover:text-orbit-primary'
@@ -62,7 +62,7 @@ export function Navbar() {
           <Link
             href="/leaderboard"
             prefetch={true}
-            className={`text-[13px] font-semibold transition-colors flex items-center gap-1.5 ${
+            className={`nav-link text-[13px] font-semibold flex items-center gap-1.5 ${
               isLeaderboardActive
                 ? 'text-orbit-primary'
                 : 'text-orbit-secondary hover:text-orbit-primary'
@@ -76,21 +76,21 @@ export function Navbar() {
           <Link
             href="/tasks?category=Generative%20AI"
             prefetch={true}
-            className="text-[13px] font-semibold text-orbit-secondary hover:text-orbit-primary transition-colors"
+            className="nav-link text-[13px] font-semibold text-orbit-secondary hover:text-orbit-primary"
           >
             AI Models
           </Link>
           <Link
             href="/tasks?category=AI%20Agents"
             prefetch={true}
-            className="text-[13px] font-semibold text-orbit-secondary hover:text-orbit-primary transition-colors"
+            className="nav-link text-[13px] font-semibold text-orbit-secondary hover:text-orbit-primary"
           >
             Agents
           </Link>
           <Link
             href="/tasks?sort=newest"
             prefetch={true}
-            className="text-[13px] font-semibold text-orbit-secondary hover:text-orbit-primary transition-colors"
+            className="nav-link text-[13px] font-semibold text-orbit-secondary hover:text-orbit-primary"
           >
             New Tasks
           </Link>
@@ -129,7 +129,7 @@ export function Navbar() {
             href="/tasks"
             prefetch={true}
             onClick={() => setMobileOpen(false)}
-            className={`px-3 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 ${
+            className={`nav-mobile-link px-3 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 ${
               isTasksActive
                 ? 'text-orbit-primary bg-orbit-card border border-orbit'
                 : 'text-orbit-secondary hover:text-orbit-primary'
@@ -143,7 +143,7 @@ export function Navbar() {
             href="/leaderboard"
             prefetch={true}
             onClick={() => setMobileOpen(false)}
-            className={`px-3 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 ${
+            className={`nav-mobile-link px-3 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 ${
               isLeaderboardActive
                 ? 'text-orbit-primary bg-orbit-card border border-orbit'
                 : 'text-orbit-secondary hover:text-orbit-primary'
@@ -157,7 +157,7 @@ export function Navbar() {
             href="/tasks?category=Generative%20AI"
             prefetch={true}
             onClick={() => setMobileOpen(false)}
-            className="px-3 py-2 rounded-lg text-sm font-semibold text-orbit-secondary hover:text-orbit-primary transition-colors flex items-center gap-2"
+            className="nav-mobile-link px-3 py-2 rounded-lg text-sm font-semibold text-orbit-secondary hover:text-orbit-primary flex items-center gap-2"
           >
             <Brain size={16} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
             <span>AI Models</span>
@@ -166,7 +166,7 @@ export function Navbar() {
             href="/tasks?category=AI%20Agents"
             prefetch={true}
             onClick={() => setMobileOpen(false)}
-            className="px-3 py-2 rounded-lg text-sm font-semibold text-orbit-secondary hover:text-orbit-primary transition-colors flex items-center gap-2"
+            className="nav-mobile-link px-3 py-2 rounded-lg text-sm font-semibold text-orbit-secondary hover:text-orbit-primary flex items-center gap-2"
           >
             <Bot size={16} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
             <span>Agents</span>
@@ -175,7 +175,7 @@ export function Navbar() {
             href="/tasks?sort=newest"
             prefetch={true}
             onClick={() => setMobileOpen(false)}
-            className="px-3 py-2 rounded-lg text-sm font-semibold text-orbit-secondary hover:text-orbit-primary transition-colors flex items-center gap-2"
+            className="nav-mobile-link px-3 py-2 rounded-lg text-sm font-semibold text-orbit-secondary hover:text-orbit-primary flex items-center gap-2"
           >
             <Sparkles size={16} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
             <span>New Tasks</span>

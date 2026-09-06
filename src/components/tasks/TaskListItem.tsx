@@ -26,7 +26,7 @@ function TaskListItemComponent({ task, index = 0 }: TaskListItemProps) {
     }
   };
 
-  const delay = `${Math.min(index * 60, 480)}ms`;
+  const delay = `${Math.min(index * 35, 280)}ms`;
 
   return (
     <Link
